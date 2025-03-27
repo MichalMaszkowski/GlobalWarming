@@ -1,0 +1,36 @@
+# read as pandas dataframe the data from Land_and_Ocean_summary.txt
+# there is a short introduction at the beginning introduced by '%' in each line,
+# then proceeded by a table in which columns are separated by tabulation
+
+import pandas as pd
+
+def read_land_ocean_data(file_path):
+  """Reads data from Land_and_Ocean_summary.txt and returns it as a pandas DataFrame."""
+
+  data = []
+  with open(file_path, 'r') as f:
+    in_table = False
+    for line in f:
+      if line.startswith('%'):
+        continue  # Skip introduction lines
+      elif not in_table and line.strip():
+        in_table = True
+        
+      if in_table:
+        row = line.strip().split('\t')  # Assuming tab-separated values
+        data.append(row)
+
+  # Convert the list of lists to a DataFrame
+  df = pd.DataFrame(data)
+  return df
+
+if __name__ == '__main__':
+    
+    # Replace with the actual path to your file
+    file_path = 'Land_and_Ocean_summary.txt' 
+    df = read_land_ocean_data(file_path)
+
+    # You can now work with the DataFrame
+    print(f"There are {len(df)} rows in the DataFrame.")
+    print("Here are the first few rows:")
+    print(df.head())  # Display the first few rows
